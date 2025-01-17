@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, output } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import {
   InputComponent,
   inputTypes,
@@ -13,13 +12,19 @@ import {
 import { ButtonComponent } from '../../common/components/button/button.component';
 
 @Component({
-  selector: 'app-login',
+  selector: 'login-form-component',
   imports: [ReactiveFormsModule, InputComponent, ButtonComponent],
-  templateUrl: './login.component.html',
+  templateUrl: './login-form.component.html',
+  styles: `
+    :host {
+      display: block;
+    }
+  `
 })
-export class LoginComponent {
+export class LoginFormComponent {
   protected passwordInputType: inputTypes = 'password';
   protected loginForm!: FormGroup;
+  eventGoToRegister = output({ alias: 'goToRegister' });
 
   constructor(private _fb: FormBuilder) {
     this.initForm();

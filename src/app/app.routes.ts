@@ -9,11 +9,11 @@ export const routes: Routes = [
     {
         path: 'home',
         title: 'Home',
-        loadComponent: () => import('./template/template.component').then(c => c.TemplateComponent)
+        loadComponent: () => import('./template/template.component').then(c => c.TemplatePage)
     },
     {
-        path: 'login',
-        title: 'Entrar',
-        loadComponent: () => import('./auth/login/login.component').then(c => c.LoginComponent)
+        path: 'auth',
+        title: 'Entrar / Registrar',
+        loadComponent: () => import('./auth/auth.page').then(c => c.AuthPage)
     }
 ];

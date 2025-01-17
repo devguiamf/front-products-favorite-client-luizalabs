@@ -1,0 +1,22 @@
+<section class="body-font text-gray-900">
+    <div class="container px-5 py-24 mx-auto flex flex-wrap items-center">
+      <div class="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0">
+        <h1 class="title-font font-medium text-4xl">
+          Cátalogo de <strong class="text-blue-500">Produtos</strong> e
+          <strong class="text-blue-500">Favoritos</strong>
+        </h1>
+        <p class="leading-relaxed mt-4">
+          "Explore nosso catálogo e descubra os produtos que vão se tornar seus
+          favoritos!"
+        </p>
+      </div>
+
+      @if(loginState){
+        <login-form-component (goToRegister)="changeAuthState()"  class="lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0"></login-form-component>
+      }@else {
+        <register-form-component (goToLogin)="changeAuthState()" class="lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0"></register-form-component>
+      }
+      
+    </div>
+  </section>
+  
