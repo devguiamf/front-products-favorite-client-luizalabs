@@ -1,0 +1,8 @@
+<button
+  [disabled]="isDisabled()"
+  [type]="type()"
+  (click)="click.emit()"
+  class="text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed rounded text-lg mb-3 w-full"
+>
+    <ng-content></ng-content>
+</button>

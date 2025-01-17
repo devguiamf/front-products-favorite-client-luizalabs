@@ -11,29 +11,23 @@
       </p>
     </div>
     <form
+      [formGroup]="loginForm"
+      (submit)="login()"
       class="lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0"
     >
       <h2 class="text-lg text-center font-medium title-font mb-5">
         Bem vindo de volta!
       </h2>
       <div class="relative mb-4">
-        <label for="email" class="leading-7 text-sm text-gray-600">Email</label>
-        <input
-          type="text"
-          id="email"
-          name="email"
-          class="w-full bg-white rounded border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-        />
+        <input-component label="Email" type="email" formControlName="email" />
       </div>
       <div class="relative mb-4">
-        <label for="password" class="leading-7 text-sm text-gray-600"
-          >Senha</label
-        >
-        <input
-          [type]="password_input_type"
-          id="password"
-          name="password"
-          class="w-full bg-white rounded border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out mb-3"
+        <input-component
+          label="Senha"
+          formControlName="password"
+          [type]="passwordInputType"
+          class="mb-3"
+          
         />
         <div class="flex justify-end w-full">
           <input
@@ -50,13 +44,9 @@
           >
         </div>
       </div>
-      <button
-        class="text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded text-lg mb-3"
-      >
-        Entrar
-      </button>
+      <button-component type="submit" [isDisabled]="loginForm.invalid">Entrar</button-component>
       <p class="hover:font-medium cursor-pointer text-center">
-        Não tenho conta
+        Não tenho conta!
       </p>
     </form>
   </div>

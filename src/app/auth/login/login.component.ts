@@ -1,31 +1,41 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import {
+  InputComponent,
+  inputTypes,
+} from '../../common/components/input/input.component';
+import { ButtonComponent } from '../../common/components/button/button.component';
 
 @Component({
   selector: 'app-login',
-  imports: [],
+  imports: [ReactiveFormsModule, InputComponent, ButtonComponent],
   templateUrl: './login.component.html',
 })
-export class LoginComponent implements OnInit {
-  protected password_input_type: string = 'password';
-  protected login_form!: FormGroup;
+export class LoginComponent {
+  protected passwordInputType: inputTypes = 'password';
+  protected loginForm!: FormGroup;
 
-  constructor(private _fb: FormBuilder) {}
-
-  ngOnInit() {
+  constructor(private _fb: FormBuilder) {
     this.initForm();
   }
 
   initForm() {
-    this.login_form = this._fb.group({
+    this.loginForm = this._fb.group({
       email: [null, [Validators.required, Validators.email]],
       password: [null, [Validators.required, Validators.minLength(6)]],
     });
   }
 
   changeTypeInputPassword() {
-    this.password_input_type =
-      this.password_input_type === 'password' ? 'text' : 'password';
+    this.passwordInputType =
+      this.passwordInputType === 'password' ? 'text' : 'password';
   }
+
+  login() {}
 }
