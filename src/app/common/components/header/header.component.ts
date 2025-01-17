@@ -1,11 +1,15 @@
 import { Component } from '@angular/core';
 
+type NavLinks = {
+  label: string;
+  url: string;
+  icon?: string;
+}
+
 @Component({
-  selector: 'app-header',
+  selector: 'header-component',
   imports: [],
-  templateUrl: './header.component.html',
-  styleUrl: './header.component.css'
+  templateUrl: './header.component.html'
 })
 export class HeaderComponent {
-
 }
