@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 type NavLinks = {
   label: string;
@@ -8,8 +9,11 @@ type NavLinks = {
 
 @Component({
   selector: 'header-component',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './header.component.html'
 })
 export class HeaderComponent {
+  protected login_route: string = '/login';
+  protected register_route: string = '/register';
+
 }
