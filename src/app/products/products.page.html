@@ -1,1 +1,6 @@
-<list-products-component></list-products-component>
+<h1 class="text-center text-3xl font-medium mt-5">Catálogo de Produtos</h1>
+@if(loading){
+    <h1 class="text-center font-medium mt-5">Carregando produtos...</h1>
+}@else {
+    <list-products-component (eventFavoriteProduct)="favoriteProduct($event)" [products]="products"></list-products-component>
+}

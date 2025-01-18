@@ -1,1 +1,10 @@
-<product-component></product-component>
+<section class="text-gray-600 body-font">
+    <div class="container lg:px-24 md:px-12 px-4 p-24 mx-auto">
+        <div class="grid grid-cols-4 gap-4">
+            @for (product of products; track $index) {
+                <product-component (favoriteProduct)="eventFavoriteProduct.emit($event)" class="p-4 shadow-md lg:col-span-1 md:col-span-2 col-span-4" [product]="product"></product-component>
+            }
+        </div>
+    </div>
+</section>
+

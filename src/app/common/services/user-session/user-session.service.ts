@@ -21,7 +21,9 @@ export class UserSessionService {
   constructor() { }
 
   private getStorageItem(key: string) {
-    return JSON.parse(sessionStorage.getItem(key) ?? '')
+    const storageItem =  localStorage.getItem(key)
+    if(!storageItem) return null
+    return JSON.parse(storageItem)
   }
 
   private setStorageItem(key:string, value: string){
@@ -46,7 +48,7 @@ export class UserSessionService {
 
   isUserLogged(){
     const infoSession = this.getStorageItem(USER_SESSION_KEYS.token_key);
-    if(infoSession === '' || infoSession === '{}' || !infoSession)  false;
+    if(!infoSession) return false;
     return true;
   }
 
