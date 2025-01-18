@@ -1,18 +1,23 @@
 import { Routes } from '@angular/router';
 
+export enum ROUTE_KEYS {
+    home = 'home',
+    auth = 'auth'
+} 
+
 export const routes: Routes = [
     {
         path: '',
-        redirectTo: 'home',
+        redirectTo: ROUTE_KEYS.home,
         pathMatch: 'full'
     },
     {
-        path: 'home',
+        path: ROUTE_KEYS.home,
         title: 'Home',
         loadComponent: () => import('./template/template.component').then(c => c.TemplatePage)
     },
     {
-        path: 'auth',
+        path: ROUTE_KEYS.auth,
         title: 'Entrar / Registrar',
         loadComponent: () => import('./auth/auth.page').then(c => c.AuthPage)
     }

@@ -33,11 +33,13 @@
     @if(loginState){
     <login-form-component
       (goToRegister)="changeAuthState()"
+      (toLogin)="login($event)"
       class="lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0"
     ></login-form-component>
     }@else {
     <register-form-component
       (goToLogin)="changeAuthState()"
+      (toRegister)="register($event)"
       class="lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0"
     ></register-form-component>
     }

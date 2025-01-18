@@ -8,8 +8,9 @@ import {
 import {
   InputComponent,
   inputTypes,
-} from '../../common/components/input/input.component';
-import { ButtonComponent } from '../../common/components/button/button.component';
+} from '../../../common/components/input/input.component';
+import { ButtonComponent } from '../../../common/components/button/button.component';
+import { Login } from '../../../api/auth';
 
 @Component({
   selector: 'login-form-component',
@@ -25,9 +26,14 @@ export class LoginFormComponent {
   protected passwordInputType: inputTypes = 'password';
   protected loginForm!: FormGroup;
   eventGoToRegister = output({ alias: 'goToRegister' });
+  eventLogin = output<Login>({ alias: 'toLogin'})
 
   constructor(private _fb: FormBuilder) {
     this.initForm();
+  }
+
+  get hasErrorInLoginForm(){
+    return this.loginForm.invalid
   }
 
   initForm() {
@@ -42,5 +48,7 @@ export class LoginFormComponent {
       this.passwordInputType === 'password' ? 'text' : 'password';
   }
 
-  login() {}
+  login() {
+    this.eventLogin.emit(this.loginForm.value)
+  }
 }

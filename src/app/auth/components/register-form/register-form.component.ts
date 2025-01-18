@@ -1,7 +1,8 @@
 import { Component, output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { InputComponent, inputTypes } from '../../common/components/input/input.component';
-import { ButtonComponent } from '../../common/components/button/button.component';
+import { InputComponent, inputTypes } from '../../../common/components/input/input.component';
+import { ButtonComponent } from '../../../common/components/button/button.component';
+import { Register } from '../../../api/auth';
 
 @Component({
   selector: 'register-form-component',
@@ -16,7 +17,8 @@ import { ButtonComponent } from '../../common/components/button/button.component
 export class RegisterFormComponent {
   protected passwordInputType: inputTypes = 'password';
   protected registerForm!: FormGroup;
-  eventGoToLogin = output({ alias: 'goToLogin' });
+  eventGoToLogin = output({ alias: 'goToLogin'});
+  eventToRegister = output<Register>({alias: 'toRegister'});
 
   constructor(private _fb: FormBuilder) {
     this.initForm();
@@ -35,5 +37,7 @@ export class RegisterFormComponent {
       this.passwordInputType === 'password' ? 'text' : 'password';
   }
 
-  regfister() {}
+  regfister() {
+    this.eventToRegister.emit(this.registerForm.value)
+  }
 }
