@@ -1,12 +1,18 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink, RouterLinkActive } from '@angular/router';
 import { UserSessionService } from '../../services/user-session/user-session.service';
 import { ROUTE_KEYS } from '../../../app.routes';
 
 @Component({
   selector: 'header-component',
-  imports: [RouterLink],
-  templateUrl: './header.component.html'
+  imports: [RouterLink, RouterLinkActive],
+  templateUrl: './header.component.html',
+  styles: `
+    .active-link {
+      border-bottom: 1px solid blue;
+      color: blue;
+    }
+  `
 })
 export class HeaderComponent implements OnInit{
 
@@ -18,6 +24,6 @@ export class HeaderComponent implements OnInit{
   userSessionService = inject(UserSessionService);
 
   ngOnInit(): void {
-    // this.isLogged = this.userSessionService.isUserLogged()
+    this.isLogged = this.userSessionService.isUserLogged()
   }
 }

@@ -18,9 +18,9 @@ export class AuthPage {
 
   loginState: boolean = true;
 
-  authService = inject(AuthService)
-  userSessionSerivce = inject(UserSessionService)
-  router = inject(Router)
+  authService = inject(AuthService);
+  userSessionSerivce = inject(UserSessionService);
+  router = inject(Router);
 
   changeAuthState(){
     this.loginState = !this.loginState;

@@ -5,6 +5,8 @@ import { ProductsService } from './services/products.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Subject, takeUntil } from 'rxjs';
 import { UserSessionService } from '../common/services/user-session/user-session.service';
+import { FavoritesService } from '../favorites/services/favorites.service';
+import { FavoriteItem } from '../api/favorite';
 
 @Component({
   selector: 'products-page',
@@ -16,6 +18,7 @@ export class ProductsPage implements OnInit{
 
   userSessionService = inject(UserSessionService);
   productsService = inject(ProductsService);
+  favoriteService = inject(FavoritesService);
 
   $destroy: Subject<VideoDecoderEventMap> = new Subject();
   
@@ -32,8 +35,7 @@ export class ProductsPage implements OnInit{
     this.productsService.getProductAPI()
       .pipe(takeUntil(this.$destroy))
       .subscribe({
-        next: (res) => {this.products = res; console.log(this.products);
-        },
+        next: (res) => this.products = res,
         error: (err) => this.errorHandler(err),
         complete: () => this.loading = false
       })
@@ -46,9 +48,19 @@ export class ProductsPage implements OnInit{
 
     this.productsService.favoriteProductAPI(product)
       .subscribe({
-        next: (res) => {},
+        next: (res) => {
+          this.favoriteService.$addFavoriteItem(product);
+        },
         error: (err) => this.errorHandler(err)
       })
+  }
+
+  toFavoriteProsp(product: Product): FavoriteItem {
+    return {
+      id: product.id,
+      title: product.title,
+      image: product.image
+    }
   }
 
   errorHandler(err: HttpErrorResponse){

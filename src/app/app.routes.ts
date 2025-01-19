@@ -24,6 +24,11 @@ export const routes: Routes = [
         loadComponent: () => import('./template/template.component').then(c => c.TemplatePage),
         children: [
             {
+                path: '',
+                redirectTo: ROUTE_KEYS.products,
+                pathMatch: 'full'
+            },
+            {
                 path: ROUTE_KEYS.products,
                 title: 'Produtos',
                 loadComponent: () => import('./products/products.page').then(c => c.ProductsPage)
