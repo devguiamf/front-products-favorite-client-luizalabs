@@ -14,6 +14,7 @@ describe('ListFavoriteComponent', () => {
 
     fixture = TestBed.createComponent(ListFavoriteComponent);
     component = fixture.componentInstance;
+    component.favoriteList = { id: '123', title: 'Product 1', description: 'description', products: [] };
     fixture.detectChanges();
   });
 

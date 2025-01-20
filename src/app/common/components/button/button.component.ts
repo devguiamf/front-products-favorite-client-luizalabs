@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, input, InputSignal, output } from '@angular/core';
+import { Component, Input, output } from '@angular/core';
 
 @Component({
   selector: 'button-component',
@@ -12,7 +12,11 @@ import { Component, input, InputSignal, output } from '@angular/core';
   `
 })
 export class ButtonComponent {
-  type: InputSignal<'button' | 'submit'> = input.required();
-  isDisabled: InputSignal<boolean> = input(false); 
-  click = output({alias: 'click'});
+  @Input() type: 'button' | 'submit' = 'button';
+  @Input() isDisabled: boolean = false; 
+  @Input() color: 'primary' | 'danger' = 'primary';
+
+  get isPrimary() {
+    return this.color === 'primary';
+  }
 }

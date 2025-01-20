@@ -1,4 +1,4 @@
-import { Component, inject, input, InputSignal } from '@angular/core';
+import { Component, inject, Input, input, InputSignal } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NgControl } from '@angular/forms';
 
 export type inputTypes = 'text' | 'password' | 'email';
@@ -21,8 +21,8 @@ export class InputComponent implements ControlValueAccessor {
   protected inputValue: string = '';
   protected isDisabled: boolean = false;
 
-  label: InputSignal<string> = input.required();
-  type: InputSignal<inputTypes> = input.required();
+  @Input() label: string = '';
+  @Input() type: inputTypes = 'text';
 
   constructor() {
     if (this.ngControl) this.ngControl.valueAccessor = this;

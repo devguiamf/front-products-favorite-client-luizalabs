@@ -14,6 +14,8 @@ describe('ProductComponent', () => {
 
     fixture = TestBed.createComponent(ProductComponent);
     component = fixture.componentInstance;
+    component.product = { image: 'path/to/image.jpg', id: 1, title: 'Product 1', price: 100, category: 'category', description: 'description' };
+
     fixture.detectChanges();
   });
 

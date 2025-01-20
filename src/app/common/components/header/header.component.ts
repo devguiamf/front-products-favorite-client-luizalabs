@@ -12,7 +12,8 @@ import { ROUTE_KEYS } from '../../../app.routes';
       border-bottom: 1px solid blue;
       color: blue;
     }
-  `
+  `,
+  providers: [ActivatedRoute]
 })
 export class HeaderComponent implements OnInit{
 
@@ -21,9 +22,13 @@ export class HeaderComponent implements OnInit{
   protected favoritesRoute: string = ROUTE_KEYS.favorites;
 
   protected isLogged: boolean = false;
-  userSessionService = inject(UserSessionService);
+  private userSessionService = inject(UserSessionService);
 
   ngOnInit(): void {
     this.isLogged = this.userSessionService.isUserLogged()
+  }
+
+  logout(){
+    this.userSessionService.logoutSessionUser()
   }
 }

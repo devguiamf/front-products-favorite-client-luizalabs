@@ -11,10 +11,10 @@ export class AuthService {
 
   loginAPI(credentials: Login): Observable<LoginApiResponse>{
     return of({
-      token: '',
+      token: '123456',
       user: {
-        name: '',
-        email: ''
+        name: 'John Doe',
+        email: 'email@email.com'
       }
     })
   }
@@ -22,8 +22,5 @@ export class AuthService {
   registerAPI(credentials: Register): Observable<void>{
     return of();
   }
-
-  
-
   
 }

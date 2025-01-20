@@ -14,6 +14,7 @@ describe('FavoriteItemComponent', () => {
 
     fixture = TestBed.createComponent(FavoriteItemComponent);
     component = fixture.componentInstance;
+    component.favoriteItem = { image: 'path/to/image.jpg',id: 'asdasd', title: 'Product 1', price: 100 };
     fixture.detectChanges();
   });
 

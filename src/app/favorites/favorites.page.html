@@ -1,21 +1,9 @@
-<!-- <list-favorite-component></list-favorite-component> -->
 
-<!-- <div class="block relative container rounded-md my-24 lg:px-24 md:px-12 p-8">
-    <div class="p-6 bg-gray-200"></div>
-</div> -->
-
-<div class="block relative container rounded-md my-24 lg:px-24 md:px-12 p-8">
-    <div class="p-6 bg-gray-200">
-        <div class="flex justify-between items-center">
-            <h1 class="text-2xl font-bold">Favorites</h1>
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                <a routerLink="/home">Back</a>
-            </button>
-        </div>
-        <div class="mt-4">
-            <list-favorite-component></list-favorite-component>
-        </div>
-    </div>
-
-</div>
-
+@if(isLogged){
+    <list-favorite-component 
+        [favoriteList]="favorite"
+        (removeFavoriteItem)="removeFavoriteItem($event)">
+    </list-favorite-component>
+}@else {
+    <h1 class="text-gray-500 text-2xl md:px-0 px-4 text-center font-medium mt-10">Faça login para ver seus favoritos!</h1>
+}

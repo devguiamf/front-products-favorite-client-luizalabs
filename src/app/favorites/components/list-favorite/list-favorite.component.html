@@ -1,1 +1,63 @@
-<favorite-item-component></favorite-item-component>
+<div class="lg:px-24 lg:w-full md:px-12 md:w-1/3 px-4 py-12 mx-auto w-full">
+
+    <div class="mx-auto shadow-lg rounded-lg bg-gray-50 border border-gray-200">
+        <div class="shadow-lg rounded-t-lg bg-white m-0">
+            <div class="p-4">
+                <h1 class="text-center text-3xl font-medium">{{ favoriteList.title }}</h1>
+                <p class="text-center text-gray-500 py-3">{{ favoriteList.description }}</p>
+            </div>
+            <div class="flex justify-center flex-wrap py-3">
+                <button-component (click)="openEditModal()" type="button" class="md:w-1/8 mr-2" >Editar Lista</button-component>
+                <button-component (click)="openRemoveModal()" color="danger" type="button" class="md:w-1/8" >Exluir Lista</button-component>
+            </div>
+        </div>
+    
+        @for (item of favoriteList.products; track $index) {
+            <favorite-item-component
+                class="mb-10"
+                [favoriteItem]="item"
+                (removeFavoriteItem)="removeFavoriteItem.emit($event)">
+            </favorite-item-component>
+            <hr class="h-1 bg-blue-400">
+        }
+        
+    </div>    
+</div>
+
+@if(isEditModalOpen()){
+    <div class="fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center md:px-0 px-4" (click)="closeModalWithClick($event)">
+        <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full relative">
+            <form [formGroup]="formFavorite" (submit)="editListFavorite()">
+                <h2 class="font-bold mb-4 text-2xl">Editar Lista</h2>
+                <input-component formControlName="title" class="relative mb-4" label="Nome da lista *" />
+                <input-component formControlName="description" class="relative mb-4" label="Descrição da lista"/>
+                <button-component [isDisabled]="formFavorite.invalid" type="submit" class="md:w-1/3 w-full mx-auto">Salvar</button-component>
+            </form>
+            <button (click)="closeEditModal()" class="absolute top-2 right-2 text-red-500 hover:text-red-800">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>  
+            </button>
+        </div>
+    </div>   
+}
+
+@if(isRemoveModalOpen()){
+    <div class="fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center md:px-0 px-4" (click)="closeModalWithClick($event)">
+        <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full relative">
+            <form [formGroup]="formFavorite">
+                <h2 class="font-bold mb-4 text-2xl">Atenção!</h2>
+                <p class="my-4">Ao excluir a lista, todos os produtos serão desfavoritados.</p>
+                <button-component (click)="removeListFavorite()" class="md:w-1/3 w-full mx-auto" color="danger">Excluir</button-component>
+            </form>
+            <button (click)="closeRemoveModal()" class="absolute top-2 right-2 text-red-500 hover:text-red-800">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>  
+            </button>
+        </div>
+    </div>   
+}
+
+
+

@@ -21,7 +21,7 @@ export const routes: Routes = [
     {
         path: ROUTE_KEYS.home,
         title: 'Home',
-        loadComponent: () => import('./template/template.component').then(c => c.TemplatePage),
+        loadComponent: () => import('./template/template.page').then(c => c.TemplatePage),
         children: [
             {
                 path: '',

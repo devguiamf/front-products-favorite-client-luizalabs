@@ -1,8 +1,8 @@
 <button
-  [disabled]="isDisabled()"
-  [type]="type()"
-  (click)="click.emit()"
-  class="text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed rounded text-lg mb-3 w-full"
->
+  [disabled]="isDisabled"
+  [type]="type"
+  class="text-white border-0 py-2 px-8 focus:outline-none disabled:bg-gray-500 disabled:cursor-not-allowed rounded text-lg w-full text-center"
+  [ngClass]="{'bg-blue-500  hover:bg-blue-600': isPrimary, 'bg-red-500 hover:bg-red-600': !isPrimary}"  
+  >
     <ng-content></ng-content>
 </button>

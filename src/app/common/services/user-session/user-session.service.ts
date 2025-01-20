@@ -1,4 +1,6 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { ROUTE_KEYS } from '../../../app.routes';
 
 export enum USER_SESSION_KEYS {
   token_key = 'token_data',
@@ -17,6 +19,8 @@ export interface Auth {
   providedIn: 'root'
 })
 export class UserSessionService {
+
+  router = inject(Router) 
 
   constructor() { }
 
@@ -41,7 +45,6 @@ export class UserSessionService {
   }
 
   setUserSession(auth: Auth){
-    if(!auth.token) console.log('Token invalid');
     this.setStorageItem(USER_SESSION_KEYS.token_key, auth.token)
     this.setStorageItem(USER_SESSION_KEYS.user_key, JSON.stringify(auth.user))
   }
@@ -56,5 +59,6 @@ export class UserSessionService {
     this.removeStorageItem(USER_SESSION_KEYS.token_key);
     this.removeStorageItem(USER_SESSION_KEYS.user_key);
     this.clearSessionStorage();
+    this.router.navigate(['/' + ROUTE_KEYS.auth])
   }
 }

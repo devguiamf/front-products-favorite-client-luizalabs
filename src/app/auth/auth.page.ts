@@ -8,25 +8,33 @@ import { AuthService } from './service/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserSessionService } from '../common/services/user-session/user-session.service';
 import { ROUTE_KEYS } from '../app.routes';
+import { ToastNotificationService } from '../common/services/toast-notification/toast-notification.service';
 
 @Component({
   selector: 'auth-page',
   imports: [ReactiveFormsModule, LoginFormComponent, RegisterFormComponent, RouterLink],
-  templateUrl: './auth.page.html'
+  templateUrl: './auth.page.html',
+  providers: [AuthService, UserSessionService, ToastNotificationService]
 })
 export class AuthPage {
+  
+  private toastNotificationService = inject(ToastNotificationService);
+  private authService = inject(AuthService);
+  private userSessionSerivce = inject(UserSessionService);
+  private router = inject(Router);
 
-  loginState: boolean = true;
+  protected loginState: boolean = true;
 
-  authService = inject(AuthService);
-  userSessionSerivce = inject(UserSessionService);
-  router = inject(Router);
-
-  changeAuthState(){
+  protected changeAuthState(){
     this.loginState = !this.loginState;
   }
 
-  login(event:Login){
+  
+  private errorHandler(error: HttpErrorResponse){
+    this.toastNotificationService.showWarning({title: 'Ops...', message: error.message})
+  }
+
+  protected login(event:Login){
     this.authService.loginAPI(event)
       .subscribe({
         next: (response) => {
@@ -37,16 +45,15 @@ export class AuthPage {
       })
   }
 
-  register(event: Register){
+  protected register(event: Register){
     this.authService.registerAPI(event)
       .subscribe({
         next: () => {
+          this.toastNotificationService.showSuccess({title: 'Sucesso', message: 'Usuário criado com sucesso'})
           this.changeAuthState();
         }
         ,
         error: (err) => this.errorHandler(err)
       })
   }
-
-  errorHandler(error: HttpErrorResponse){}
 }

@@ -1,11 +1,13 @@
 export interface  FavoriteItem {
-    id: number;
+    id: string;
     title: string;
     image: string;
+    price: number;
 }
 
 export interface Favorite {
+    id: string;
     title: string;
     description: string;
-    items: FavoriteItem[];
+    products: FavoriteItem[];
 }

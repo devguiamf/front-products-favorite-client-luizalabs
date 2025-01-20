@@ -5,7 +5,7 @@ import { RouterOutlet } from '@angular/router';
 @Component({
   selector: 'template-page',
   imports: [HeaderComponent, RouterOutlet],
-  templateUrl: './template.component.html'
+  templateUrl: './template.page.html'
 })
 export class TemplatePage {
 
