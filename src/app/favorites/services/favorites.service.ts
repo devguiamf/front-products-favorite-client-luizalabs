@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of, Subject, take, tap } from 'rxjs';
-import { Favorite, FavoriteItem } from '../../api/favorite';
+import { BehaviorSubject, Observable, of, take, tap } from 'rxjs';
+import { Favorite } from '../../api/favorite';
+import { environment } from '../../../environments/environment.development';
 import { Product } from '../../api/products';
 
 @Injectable({
@@ -10,7 +11,7 @@ import { Product } from '../../api/products';
 export class FavoritesService {
 
   private http: HttpClient = inject(HttpClient);
-  private favoriteApiURL = 'https://localhost:3000/favorite';
+  private favoriteApiURL = environment.api_favorite;
   private favoriteList: BehaviorSubject<Favorite> = new BehaviorSubject<Favorite>({} as Favorite);
   private headers: HttpHeaders = new HttpHeaders({
     'Content-Type': 'application/json',
@@ -30,26 +31,7 @@ export class FavoritesService {
   }
 
   private getFavoritesAPI() :Observable<Favorite> {
-    // return this.http.get<Favorite>(this.favoriteApiURL);
-    return of({
-      id: '123456',
-      title: 'My Favorite List',
-      description: 'This is my favorite list',
-      products: [
-        {
-          id: '1234565',
-          title: "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
-          price: 109.95,
-          image: 'https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg',
-        },
-        {
-          id: '123455',
-          title: "Mens Casual Premium Slim Fit T-Shirts ",
-          price: 22.3,
-          image: "https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg",
-        }
-      ]
-    })
+    return this.http.get<Favorite>(this.favoriteApiURL, {headers: this.headers});
   }
 
   private triggerFavoriteEvent(favorite: Favorite) {
@@ -60,11 +42,9 @@ export class FavoritesService {
     return this.favoriteList.asObservable();
   }
 
-  removeFavoriteItemAPI(id: string): Observable<any> {   
-    return of({})
-      .pipe(
-        tap(() => this.removeFavoriteItem$(id))
-      )
+  removeFavoriteItemAPI(productId: string): Observable<any> {   
+    return this.http.delete(`${this.favoriteApiURL}/favorite/${productId}`, {headers: this.headers})
+      .pipe(tap(() => this.removeFavoriteItem$(productId)))
   }
 
   private removeFavoriteItem$(id: string): void {
@@ -73,8 +53,8 @@ export class FavoritesService {
     this.triggerFavoriteEvent({...favorite, products: newFavorite});
   }
 
-  addFavoriteItemAPI(item: Product): Observable<any> {  
-    return of({})
+  addFavoriteItemAPI(product: Product): Observable<any> {  
+    return this.http.post(`${this.favoriteApiURL}/unfavorite/${product.id}`, {}, {headers: this.headers});
   }
 
   deleteFavoriteListAPI(id: string): Observable<void> {

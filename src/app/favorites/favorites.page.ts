@@ -45,8 +45,8 @@ export class FavoritesPage implements OnInit{
     return this.userSessionService.isUserLogged();
   }
 
-  protected removeFavoriteItem(id: string){
-    this.favoritesService.removeFavoriteItemAPI(id)
+  protected removeFavoriteItem(productId: string){
+    this.favoritesService.removeFavoriteItemAPI(productId)
       .subscribe({
         next: (res) => {
           this.toastNotificationService.showInfo({title: 'Produto removido', message: 'Produto removido com sucesso'})
@@ -54,6 +54,8 @@ export class FavoritesPage implements OnInit{
         error: (err) => this.handlerError(err)
       })
   }
+
+
 
   protected editFavoriteList(favorite: Favorite){
     this.favoritesService.updateFavoriteListAPI(favorite)

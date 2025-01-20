@@ -32,7 +32,7 @@ export class ProductsPage implements OnInit{
   ngOnInit(): void {
     this.getProductsService();
     if(this.userSessionService.isUserLogged()){
-      this.favoriteService.loadFavoriteList()
+      this.favoriteService.loadFavoriteList();
     }
   }
 
