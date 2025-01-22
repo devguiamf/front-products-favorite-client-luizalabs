@@ -10,15 +10,16 @@ import { environment } from '../../../environments/environment.development';
 export class AuthService {
 
   http = inject(HttpClient);
+  api_client = environment.api_client;
 
   constructor() { }
 
   loginAPI(credentials: Login): Observable<LoginApiResponse>{
-    return this.http.post<LoginApiResponse>(`${environment.api_favorite}/login`, credentials)
+    return this.http.post<LoginApiResponse>(`${environment.api_client}/auth`, credentials)
   }
 
   registerAPI(credentials: Register): Observable<void>{
-    return of();
+    return this.http.post<void>(`${environment.api_client}/register`, credentials)
   }
   
 }

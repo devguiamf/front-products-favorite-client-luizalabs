@@ -8,6 +8,7 @@ export interface  FavoriteItem {
 export interface Favorite {
     id: string;
     title: string;
-    description: string;
-    products: FavoriteItem[];
+    userId: string
+    description?: string;
+    products?: FavoriteItem[];
 }

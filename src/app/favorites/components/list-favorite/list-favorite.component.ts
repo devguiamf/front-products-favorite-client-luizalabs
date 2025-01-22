@@ -18,6 +18,7 @@ export class ListFavoriteComponent implements OnInit {
   private fb = inject(FormBuilder);
   protected isEditModalOpen: WritableSignal<boolean> = signal(false);
   protected isRemoveModalOpen: WritableSignal<boolean> = signal(false);
+  protected isCreateModalOpen: WritableSignal<boolean> = signal(false);
   protected formFavorite!: FormGroup;
 
   ngOnInit(): void {
@@ -26,8 +27,8 @@ export class ListFavoriteComponent implements OnInit {
 
   private initForm() {
     this.formFavorite = this.fb.group({
-      title: [this.favoriteList.title ?? null, [Validators.required]],
-      description: [this.favoriteList.description ?? null],
+      title: [this.favoriteList?.title ?? null, [Validators.required]],
+      description: [this.favoriteList?.description ?? null],
     });
   }
 
@@ -45,6 +46,14 @@ export class ListFavoriteComponent implements OnInit {
 
   protected closeRemoveModal() {
     this.isRemoveModalOpen.set(false);
+  }
+
+  protected openCreateModal() {
+    this.isCreateModalOpen.set(true);
+  }
+
+  protected closeCreateModal() {
+    this.isCreateModalOpen.set(false);
   }
 
   protected closeModalWithClick(event: MouseEvent) {

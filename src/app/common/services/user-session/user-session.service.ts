@@ -55,6 +55,10 @@ export class UserSessionService {
     return true;
   }
 
+  get userId(){
+    return this.getStorageItem(USER_SESSION_KEYS.user_key)?.id ?? null;
+  }
+
   logoutSessionUser(){
     this.removeStorageItem(USER_SESSION_KEYS.token_key);
     this.removeStorageItem(USER_SESSION_KEYS.user_key);

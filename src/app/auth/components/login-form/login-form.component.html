@@ -3,7 +3,7 @@
     Bem vindo de volta!
   </h2>
   <div class="relative mb-4">
-    <input-component label="Email" type="email" formControlName="email"/>
+    <input-component label="Email" type="email" formControlName="email" />
   </div>
   <div class="relative mb-4">
     <input-component
@@ -27,5 +27,9 @@
   <button-component type="submit" [isDisabled]="hasErrorInLoginForm"
     >Entrar</button-component
   >
-  <a (click)="eventGoToRegister.emit()" class="hover:font-medium cursor-pointer text-center" >Não tenho conta!</a>
+  <a
+    (click)="eventGoToRegister.emit()"
+    class="hover:font-medium cursor-pointer text-center mt-3"
+    >Não tenho conta!</a
+  >
 </form>

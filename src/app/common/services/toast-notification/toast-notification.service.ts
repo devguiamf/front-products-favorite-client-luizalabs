@@ -3,7 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 
 type ToastProps = {
   title: string,
-  message: string
+  message?: string
 }
 
 @Injectable({

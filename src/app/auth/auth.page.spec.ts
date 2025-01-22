@@ -4,6 +4,7 @@ import { AuthPage } from './auth.page';
 import { ToastrModule } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('AuthPage', () => {
   let component: AuthPage;
@@ -11,7 +12,7 @@ describe('AuthPage', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AuthPage,ToastrModule.forRoot()],
+      imports: [AuthPage,ToastrModule.forRoot(), HttpClientTestingModule],
       providers: [
         {
           provide: ActivatedRoute,

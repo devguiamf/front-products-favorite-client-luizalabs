@@ -24,7 +24,10 @@ export class FavoritesPage implements OnInit{
   protected loading: boolean = false;
 
   ngOnInit(): void {
-    this.favoritesService.loadFavoriteList();
+    if(this.userSessionService.userId) {
+      this.favoritesService.loadFavoriteList(this.userSessionService.userId);
+    }
+  
     this.observeFavoriteList();
   }
   
@@ -36,7 +39,7 @@ export class FavoritesPage implements OnInit{
     this.favorite$
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (res) => this.favorite = res,
+        next: (res) => this.favorite = Object.keys(res).length ? res : null as unknown as Favorite,
         error: (err) => this.handlerError(err)
       })
   }
@@ -46,7 +49,7 @@ export class FavoritesPage implements OnInit{
   }
 
   protected removeFavoriteItem(productId: string){
-    this.favoritesService.removeFavoriteItemAPI(productId)
+    this.favoritesService.unfavoriteProductAPI(this.userSessionService.userId, productId)
       .subscribe({
         next: (res) => {
           this.toastNotificationService.showInfo({title: 'Produto removido', message: 'Produto removido com sucesso'})
@@ -61,7 +64,7 @@ export class FavoritesPage implements OnInit{
     this.favoritesService.updateFavoriteListAPI(favorite)
       .subscribe({
         next: (res) => {
-          this.favoritesService.loadFavoriteList();
+          this.favoritesService.loadFavoriteList(this.userSessionService.userId);
           this.toastNotificationService.showSuccess({title: 'Lista editada', message: 'Lista editada com sucesso'})
         },
         error: (err) => this.handlerError(err)
@@ -72,7 +75,7 @@ export class FavoritesPage implements OnInit{
     this.favoritesService.deleteFavoriteListAPI(id)
       .subscribe({
         next: (res) => {
-          this.favoritesService.loadFavoriteList();
+          this.favoritesService.loadFavoriteList(this.userSessionService.userId);
           this.toastNotificationService.showInfo({title: 'Lista removida', message: 'Lista removida com sucesso'})
         },
         error: (err) => this.handlerError(err)

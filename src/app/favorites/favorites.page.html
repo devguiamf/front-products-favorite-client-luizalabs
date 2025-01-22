@@ -1,9 +1,13 @@
-
 @if(isLogged){
-    <list-favorite-component 
-        [favoriteList]="favorite"
-        (removeFavoriteItem)="removeFavoriteItem($event)">
-    </list-favorite-component>
+
+<list-favorite-component
+  [favoriteList]="favorite"
+  (removeFavoriteItem)="removeFavoriteItem($event)"
+>
+</list-favorite-component>
+
 }@else {
-    <h1 class="text-gray-500 text-2xl md:px-0 px-4 text-center font-medium mt-10">Faça login para ver seus favoritos!</h1>
+<h1 class="text-gray-500 text-2xl md:px-0 px-4 text-center font-medium mt-10">
+  Faça login para ver seus favoritos!
+</h1>
 }

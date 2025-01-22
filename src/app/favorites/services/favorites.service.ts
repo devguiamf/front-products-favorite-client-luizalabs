@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, take, tap } from 'rxjs';
 import { Favorite } from '../../api/favorite';
@@ -18,20 +18,27 @@ export class FavoritesService {
     'Authorization': `Bearer ${this.getToken()}`
   });
 
-  loadFavoriteList() {
-    this.getFavoritesAPI()
+  loadFavoriteList(idUser: string) {
+    this.getFavoritesAPI(idUser)
       .pipe(take(1))
       .subscribe({
-        next: (res) => this.triggerFavoriteEvent(res)
+        next: (res) => this.triggerFavoriteEvent(res),
+        error: (err) => this.handlerError(err)
       })
+  }
+
+  handlerError(error: HttpErrorResponse) {
+    console.error(error);
   }
 
   private getToken() {
     return localStorage.getItem('token');
   }
 
-  private getFavoritesAPI() :Observable<Favorite> {
-    return this.http.get<Favorite>(this.favoriteApiURL, {headers: this.headers});
+  private getFavoritesAPI(idUser: string) :Observable<Favorite> {
+    console.log(`${this.favoriteApiURL}/${idUser}`);
+    
+    return this.http.get<Favorite>(`${this.favoriteList}/${idUser}`, {headers: this.headers});
   }
 
   private triggerFavoriteEvent(favorite: Favorite) {
@@ -42,26 +49,26 @@ export class FavoritesService {
     return this.favoriteList.asObservable();
   }
 
-  removeFavoriteItemAPI(productId: string): Observable<any> {   
-    return this.http.delete(`${this.favoriteApiURL}/favorite/${productId}`, {headers: this.headers})
+  unfavoriteProductAPI(idUser: string, productId: string): Observable<any> {   
+    return this.http.post(`${this.favoriteApiURL}/${idUser}`, {productId}, {headers: this.headers})
       .pipe(tap(() => this.removeFavoriteItem$(productId)))
   }
 
   private removeFavoriteItem$(id: string): void {
     const favorite = this.favoriteList.getValue();
-    const newFavorite = favorite.products.filter((item) => item.id !== id);
+    const newFavorite = favorite.products?.filter((item) => item.id !== id);
     this.triggerFavoriteEvent({...favorite, products: newFavorite});
   }
 
-  addFavoriteItemAPI(product: Product): Observable<any> {  
-    return this.http.post(`${this.favoriteApiURL}/unfavorite/${product.id}`, {}, {headers: this.headers});
+  favoriteProductAPI(idUser: string, product: Product): Observable<any> {  
+    return this.http.post(`${this.favoriteApiURL}/${idUser}/favorite-product`, product, {headers: this.headers});
   }
 
-  deleteFavoriteListAPI(id: string): Observable<void> {
-    return of();
+  deleteFavoriteListAPI(idUser: string): Observable<void> {
+    return this.http.delete<void>(`${this.favoriteApiURL}/${idUser}`, {headers: this.headers});
   }
 
   updateFavoriteListAPI(favorite: Favorite): Observable<void> {
-    return of();
+    return this.http.patch<void>(`${this.favoriteApiURL}/${favorite.id}`, favorite, {headers: this.headers});
   }
 }

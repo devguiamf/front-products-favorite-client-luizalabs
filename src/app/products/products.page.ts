@@ -32,7 +32,7 @@ export class ProductsPage implements OnInit{
   ngOnInit(): void {
     this.getProductsService();
     if(this.userSessionService.isUserLogged()){
-      this.favoriteService.loadFavoriteList();
+      this.favoriteService.loadFavoriteList(this.userSessionService.userId);
     }
   }
 
@@ -55,7 +55,7 @@ export class ProductsPage implements OnInit{
     const isLogged = this.userSessionService.isUserLogged();
     
     if(isLogged){
-      this.favoriteService.addFavoriteItemAPI(product)
+      this.favoriteService.favoriteProductAPI(this.userSessionService.userId, product)
       .subscribe({
         next: (res) => this.toastNotificationService.showSuccess({title: 'Produto favoritado', message: 'Produto favoritado com sucesso'}),
         error: (err) => this.errorHandler(err)
