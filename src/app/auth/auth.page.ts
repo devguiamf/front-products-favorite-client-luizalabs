@@ -28,13 +28,17 @@ export class AuthPage {
   private router = inject(Router);
 
   protected loginState: boolean = true;
-  protected loading: boolean = false;
+  loadinLogin: boolean = false;
+  loadinRegister: boolean = false;
+
 
   protected changeAuthState() {
     this.loginState = !this.loginState;
   }
 
   private errorHandler(error: HttpErrorResponse) {
+    this.loadinLogin = false;
+    this.loadinRegister = false;
     const errorServer = error.status >= 500 || error.status === 0;    
     this.toastNotificationService.showWarning({
       title: errorServer ? 'Ops... Algo deu errado, tente mais tarde' : error.error.message,
@@ -42,19 +46,18 @@ export class AuthPage {
   }
 
   protected login(event: Login) {
-    this.loading = true
+    this.loadinLogin = true
     this.authService.loginAPI(event).subscribe({
       next: (response) => {
         this.userSessionSerivce.setUserSession(response);
         this.router.navigate([ROUTE_KEYS.home]);
       },
-      error: (err) => this.errorHandler(err),
-      complete: () => (this.loading = false),
+      error: (err) => this.errorHandler(err)
     });
   }
 
   protected register(event: Register) {
-    this.loading = true;
+    this.loadinRegister = true;
     this.authService.registerAPI(event).subscribe({
       next: () => {
         this.toastNotificationService.showSuccess({
@@ -63,8 +66,7 @@ export class AuthPage {
         });
         this.changeAuthState();
       },
-      error: (err) => this.errorHandler(err),
-      complete: () => (this.loading = false),
+      error: (err) => this.errorHandler(err)
     });
   }
 }

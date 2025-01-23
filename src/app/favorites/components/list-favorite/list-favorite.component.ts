@@ -33,7 +33,7 @@ import {
   templateUrl: './list-favorite.component.html',
 })
 export class ListFavoriteComponent implements OnInit, OnChanges {
-  @Input({ required: true }) favoriteList: Favorite = null as unknown as Favorite;
+  @Input({ required: true }) favoriteList: Favorite | null = null;
   @Output('removeFavoriteItem') removeFavoriteItemEvent: EventEmitter<number> =
     new EventEmitter();
   @Output('editListFavorite') editFavoriteListEvent: EventEmitter<Favorite> =
@@ -66,6 +66,7 @@ export class ListFavoriteComponent implements OnInit, OnChanges {
   }
 
   private setValuesForm() {
+    this.favoriteList &&
     this.formFavorite.patchValue({
       title: this.favoriteList.title,
       description: this.favoriteList.description,
@@ -102,12 +103,14 @@ export class ListFavoriteComponent implements OnInit, OnChanges {
   }
 
   protected editListFavorite() {
+    if (!this.favoriteList) return;
     Object.assign(this.favoriteList, this.formFavorite.value);
     this.editFavoriteListEvent.emit(this.favoriteList);
     this.closeEditModal();
   }
 
   protected removeListFavorite() {
+    if (!this.favoriteList) return;
     this.deleteFavoriteListEvent.emit(this.favoriteList.userId);
     this.formFavorite.reset
     this.closeRemoveModal();

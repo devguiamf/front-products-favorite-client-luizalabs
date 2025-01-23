@@ -32,7 +32,7 @@ export class FavoritesService {
 
   private http: HttpClient = inject(HttpClient);
   private favoriteApiURL = environment.api_favorite;
-  private favoriteList: BehaviorSubject<Favorite> = new BehaviorSubject<Favorite>(null as unknown as Favorite);
+  private favoriteList: BehaviorSubject<Favorite | null> = new BehaviorSubject<Favorite | null>(null);
   private headers: HttpHeaders;
 
   constructor(){
@@ -48,7 +48,7 @@ export class FavoritesService {
       .pipe(take(1))
       .subscribe({
         next: (res) => this.triggerFavoriteEvent(res),
-        error: (err) => this.triggerFavoriteEvent(null as unknown as Favorite)
+        error: (err) => this.triggerFavoriteEvent(null)
       })
   }
 
@@ -60,17 +60,18 @@ export class FavoritesService {
     return this.http.get<Favorite>(`${this.favoriteApiURL}/${idUser}`, {headers: this.headers});
   }
 
-  private triggerFavoriteEvent(favorite: Favorite) {
+  private triggerFavoriteEvent(favorite: Favorite | null): void {
     this.favoriteList.next(favorite);
   }
 
   private removeFavoriteItem$(id: number): void {
     const favorite = this.favoriteList.getValue();
-    const newFavorite = favorite.products?.filter((item) => item.productApiId !== id);
-    this.triggerFavoriteEvent({...favorite, products: newFavorite});
+    if (!favorite) return;
+    favorite.products = favorite.products?.filter(product => product.productApiId !== id);
+    this.triggerFavoriteEvent(favorite);
   }
 
-  observeFavoriteList(): Observable<Favorite> {
+  observeFavoriteList(): Observable<Favorite | null> {
     return this.favoriteList.asObservable();
   }
 

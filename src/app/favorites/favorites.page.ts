@@ -19,7 +19,7 @@ export class FavoritesPage implements OnInit {
   private userSessionService = inject(UserSessionService);
   private toastNotificationService = inject(ToastNotificationService);
   private destroy$ = new Subject();
-  protected favorite!: Favorite;
+  protected favorite: Favorite | null = null;
   protected loading: boolean = false;
 
   ngOnInit(): void {
@@ -46,7 +46,7 @@ export class FavoritesPage implements OnInit {
         },
         error: (err) => {
           this.handlerError(err);
-          this.favorite = null as unknown as Favorite;
+          this.favorite = null;
         },
     });
   }

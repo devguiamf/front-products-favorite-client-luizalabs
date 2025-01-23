@@ -37,8 +37,8 @@
       >
     </div>
   </div>
-  <button-component type="submit" [isDisabled]="registerForm.invalid"
-    >Cadastrar</button-component
+  <button-component type="submit" [isDisabled]="registerForm.invalid || loading"
+    >{{ loading ? 'Caregando': 'Cadastrar'}}</button-component
   >
   <a
     (click)="eventGoToLogin.emit()"

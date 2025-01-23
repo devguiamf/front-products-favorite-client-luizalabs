@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, output, SimpleChanges } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -22,15 +22,29 @@ import { Login } from '../../../api/auth';
     }
   `
 })
-export class LoginFormComponent {
+export class LoginFormComponent implements OnChanges {
   protected passwordInputType: inputTypes = 'password';
   protected loginForm!: FormGroup;
-  @Input() protected loading: boolean = false;
+  @Input() loading: boolean = false;
   @Output('goToRegister') eventGoToRegister: EventEmitter<void> = new EventEmitter();
   @Output('login') eventLogin: EventEmitter<Login> = new EventEmitter();
 
   constructor(private _fb: FormBuilder) {
     this.initForm();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['loading']) {
+      console.log(changes['loading'].currentValue);
+      
+      if (changes['loading'].currentValue) {
+        this.loginForm.disable();
+        this.loading = true;
+      } else {
+        this.loading = false;
+        this.loginForm.enable();
+      }
+    }
   }
 
   get hasErrorInLoginForm(){
