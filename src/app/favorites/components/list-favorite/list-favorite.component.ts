@@ -32,8 +32,8 @@ import {
   ],
   templateUrl: './list-favorite.component.html',
 })
-export class ListFavoriteComponent implements OnChanges {
-  @Input({ required: true }) favoriteList!: Favorite;
+export class ListFavoriteComponent implements OnInit, OnChanges {
+  @Input({ required: true }) favoriteList: Favorite = null as unknown as Favorite;
   @Output('removeFavoriteItem') removeFavoriteItemEvent: EventEmitter<number> =
     new EventEmitter();
   @Output('editListFavorite') editFavoriteListEvent: EventEmitter<Favorite> =
@@ -48,16 +48,27 @@ export class ListFavoriteComponent implements OnChanges {
   protected isCreateModalOpen: WritableSignal<boolean> = signal(false);
   protected formFavorite!: FormGroup;
 
+  ngOnInit(): void {
+    this.initForm();
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['favoriteList'].currentValue) {
-      this.initForm();
+      this.setValuesForm();
     }
   }
 
   private initForm() {
     this.formFavorite = this.fb.group({
-      title: [this.favoriteList.title ?? null, [Validators.required]],
-      description: [this.favoriteList.description ?? null],
+      title: [this.favoriteList?.title ?? null, [Validators.required]],
+      description: [this.favoriteList?.description ?? null],
+    });
+  }
+
+  private setValuesForm() {
+    this.formFavorite.patchValue({
+      title: this.favoriteList.title,
+      description: this.favoriteList.description,
     });
   }
 

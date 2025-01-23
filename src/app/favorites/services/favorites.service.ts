@@ -32,7 +32,7 @@ export class FavoritesService {
 
   private http: HttpClient = inject(HttpClient);
   private favoriteApiURL = environment.api_favorite;
-  private favoriteList: BehaviorSubject<Favorite> = new BehaviorSubject<Favorite>({} as Favorite);
+  private favoriteList: BehaviorSubject<Favorite> = new BehaviorSubject<Favorite>(null as unknown as Favorite);
   private headers: HttpHeaders;
 
   constructor(){
@@ -74,9 +74,7 @@ export class FavoritesService {
     return this.favoriteList.asObservable();
   }
 
-  unfavoriteProductAPI(idUser: string, productId: number): Observable<any> {   
-    console.log('ID DO USUÁRIO', idUser);
-    console.log('ID DO PRODUTO', productId);    
+  unfavoriteProductAPI(idUser: string, productId: number): Observable<any> {    
     return this.http.post(`${this.favoriteApiURL}/${idUser}/unfavorite-product`, {productApiId: productId}, {headers: this.headers})
       .pipe(tap(() => this.removeFavoriteItem$(productId)))
   }
@@ -87,7 +85,6 @@ export class FavoritesService {
 
   favoriteProductAPI(idUser: string, product: Product): Observable<any> {
     const favoriteProduct = this.productToFavorite(product);
-    console.log('PRODUTO FAVORITADO', favoriteProduct);
     
     return this.http.post(`${this.favoriteApiURL}/${idUser}/favorite-product`, favoriteProduct, {headers: this.headers});
   }

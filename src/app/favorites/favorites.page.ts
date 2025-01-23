@@ -46,7 +46,7 @@ export class FavoritesPage implements OnInit {
         },
         error: (err) => {
           this.handlerError(err);
-          this.favorite = {} as unknown as Favorite;
+          this.favorite = null as unknown as Favorite;
         },
     });
   }

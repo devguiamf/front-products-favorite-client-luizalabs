@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, output } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -25,6 +25,7 @@ import { Login } from '../../../api/auth';
 export class LoginFormComponent {
   protected passwordInputType: inputTypes = 'password';
   protected loginForm!: FormGroup;
+  @Input() protected loading: boolean = false;
   @Output('goToRegister') eventGoToRegister: EventEmitter<void> = new EventEmitter();
   @Output('login') eventLogin: EventEmitter<Login> = new EventEmitter();
 
@@ -39,7 +40,7 @@ export class LoginFormComponent {
   private initForm() {
     this.loginForm = this._fb.group({
       email: [null, [Validators.required, Validators.email]],
-      password: [null, [Validators.required, Validators.minLength(6)]],
+      password: [null, [Validators.required]],
     });
   }
 
@@ -49,6 +50,6 @@ export class LoginFormComponent {
   }
 
   login() {
-    this.eventLogin.emit(this.loginForm.value)
+    this.eventLogin.emit(this.loginForm.value);
   }
 }

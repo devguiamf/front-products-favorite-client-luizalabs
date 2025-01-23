@@ -24,8 +24,9 @@
       >
     </div>
   </div>
-  <button-component type="submit" [isDisabled]="hasErrorInLoginForm"
-    >Entrar</button-component
+  <button-component type="submit" [isDisabled]="hasErrorInLoginForm || loading"
+    >{{ loading ? "Carregando..." : "Entrar" }}
+  </button-component
   >
   <a
     (click)="eventGoToRegister.emit()"

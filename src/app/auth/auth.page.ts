@@ -28,6 +28,7 @@ export class AuthPage {
   private router = inject(Router);
 
   protected loginState: boolean = true;
+  protected loading: boolean = false;
 
   protected changeAuthState() {
     this.loginState = !this.loginState;
@@ -41,16 +42,19 @@ export class AuthPage {
   }
 
   protected login(event: Login) {
+    this.loading = true
     this.authService.loginAPI(event).subscribe({
       next: (response) => {
         this.userSessionSerivce.setUserSession(response);
         this.router.navigate([ROUTE_KEYS.home]);
       },
       error: (err) => this.errorHandler(err),
+      complete: () => (this.loading = false),
     });
   }
 
   protected register(event: Register) {
+    this.loading = true;
     this.authService.registerAPI(event).subscribe({
       next: () => {
         this.toastNotificationService.showSuccess({
@@ -60,6 +64,7 @@ export class AuthPage {
         this.changeAuthState();
       },
       error: (err) => this.errorHandler(err),
+      complete: () => (this.loading = false),
     });
   }
 }
