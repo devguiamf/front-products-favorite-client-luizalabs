@@ -15,8 +15,10 @@ Este projeto foi desenvolvido utilizando AngularJs e Tailwind, seguindo a arquit
 1. Clone o repositório:
     ```bash
     git clone https://github.com/devguiamf/front-products-favorite-client-luizalabs.git
-    
-    cd https://github.com/devguiamf/front-products-favorite-client-luizalabs.git
+    ```
+
+    ```bash
+    cd front-products-favorite-client-luizalabs
     ```
 2. Instale a cli do angular
     ```bash
@@ -38,7 +40,9 @@ Este projeto foi desenvolvido utilizando AngularJs e Tailwind, seguindo a arquit
 ### Com Docker
 1. Clone o repositório:
     ```bash
-    git clone front-products-favorite-client-luizalabs
+    git clone https://github.com/devguiamf/front-products-favorite-client-luizalabs.git
+    ```
+    ```bash
     cd front-products-favorite-client-luizalabs
     ```
 2. Configure o arquivo `environment.ts` e `environment.development.ts` com as variáveis `api_product`, `api_client` e `api_favorite`.
