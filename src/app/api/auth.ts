@@ -6,6 +6,7 @@ export interface Login {
 export interface LoginApiResponse {
     token: string;
     user: {
+        id: string;
         name: string;
         email: string
     }

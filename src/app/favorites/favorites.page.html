@@ -2,7 +2,10 @@
 
 <list-favorite-component
   [favoriteList]="favorite"
+  (createListFavorite)="createListFavorite($event)"
   (removeFavoriteItem)="removeFavoriteItem($event)"
+  (deleteListFavorite)="deleteFavoriteList($event)"
+  (editListFavorite)="editFavoriteList($event)"
 >
 </list-favorite-component>
 

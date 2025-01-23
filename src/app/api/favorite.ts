@@ -3,6 +3,7 @@ export interface  FavoriteItem {
     title: string;
     image: string;
     price: number;
+    productApiId: number;
 }
 
 export interface Favorite {

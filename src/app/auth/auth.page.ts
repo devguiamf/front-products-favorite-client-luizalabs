@@ -34,10 +34,9 @@ export class AuthPage {
   }
 
   private errorHandler(error: HttpErrorResponse) {
-    console.log(error);
-    
+    const errorServer = error.status >= 500 || error.status === 0;    
     this.toastNotificationService.showWarning({
-      title: error.error.message[0],
+      title: errorServer ? 'Ops... Algo deu errado, tente mais tarde' : error.error.message,
     });
   }
 

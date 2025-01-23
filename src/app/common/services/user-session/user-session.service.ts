@@ -10,6 +10,7 @@ export enum USER_SESSION_KEYS {
 export interface Auth {
   token: string;
   user: {
+    id: string;
     name: string;
     email: string;
   }
@@ -24,15 +25,24 @@ export class UserSessionService {
 
   constructor() { }
 
-  private getStorageItem(key: string) {
-    const storageItem =  localStorage.getItem(key)
-    if(!storageItem) return null
-    return JSON.parse(storageItem)
+  getStorageItem<T>(key: string): T | null {
+    try {
+      const serializedValue = localStorage.getItem(key);
+      return serializedValue ? (JSON.parse(serializedValue) as T) : null;
+    } catch (error) {
+      console.error('Error reading from storage', error);
+      return null;
+    }
   }
 
-  private setStorageItem(key:string, value: string){
-    localStorage.setItem(key, value);
-    sessionStorage.setItem(key, value);
+  private setStorageItem(key:string, value: any){
+    try {
+      const serializedValue = JSON.stringify(value);
+      localStorage.setItem(key, serializedValue);
+      sessionStorage.setItem(key, serializedValue);
+    } catch (error) {
+      console.error('Error saving to storage', error);
+    }
   }
 
   private removeStorageItem(key: string){
@@ -45,8 +55,8 @@ export class UserSessionService {
   }
 
   setUserSession(auth: Auth){
-    this.setStorageItem(USER_SESSION_KEYS.token_key, auth.token)
-    this.setStorageItem(USER_SESSION_KEYS.user_key, JSON.stringify(auth.user))
+    this.setStorageItem(USER_SESSION_KEYS.token_key, auth.token.trim());
+    this.setStorageItem(USER_SESSION_KEYS.user_key, auth.user)
   }
 
   isUserLogged(){
@@ -55,8 +65,8 @@ export class UserSessionService {
     return true;
   }
 
-  get userId(){
-    return this.getStorageItem(USER_SESSION_KEYS.user_key)?.id ?? null;
+  get userId(): string  {
+    return this.getStorageItem<Auth['user']>(USER_SESSION_KEYS.user_key)?.id as string; 
   }
 
   logoutSessionUser(){

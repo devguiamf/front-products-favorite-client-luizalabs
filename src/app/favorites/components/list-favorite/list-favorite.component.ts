@@ -1,34 +1,63 @@
-import { Component, EventEmitter, inject, Input, OnInit, Output, signal, WritableSignal } from '@angular/core';
-import { FavoriteItemComponent } from "./favorite-item/favorite-item.component";
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  signal,
+  SimpleChanges,
+  WritableSignal,
+} from '@angular/core';
+import { FavoriteItemComponent } from './favorite-item/favorite-item.component';
 import { Favorite } from '../../../api/favorite';
-import { ButtonComponent } from "../../../common/components/button/button.component";
-import { InputComponent } from "../../../common/components/input/input.component";
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ButtonComponent } from '../../../common/components/button/button.component';
+import { InputComponent } from '../../../common/components/input/input.component';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'list-favorite-component',
-  imports: [FavoriteItemComponent, ButtonComponent, InputComponent, ReactiveFormsModule],
-  templateUrl: './list-favorite.component.html'
+  imports: [
+    FavoriteItemComponent,
+    ButtonComponent,
+    InputComponent,
+    ReactiveFormsModule,
+  ],
+  templateUrl: './list-favorite.component.html',
 })
-export class ListFavoriteComponent implements OnInit {
-  @Input() favoriteList!: Favorite;
-  @Output() removeFavoriteItem: EventEmitter<string> = new EventEmitter();
-  @Output('editListFavorite') editFavoriteListEvent: EventEmitter<Favorite> = new EventEmitter();
-  @Output('removeListFavorite') removeFavoriteListEvent: EventEmitter<string> = new EventEmitter();
+export class ListFavoriteComponent implements OnChanges {
+  @Input({ required: true }) favoriteList!: Favorite;
+  @Output('removeFavoriteItem') removeFavoriteItemEvent: EventEmitter<number> =
+    new EventEmitter();
+  @Output('editListFavorite') editFavoriteListEvent: EventEmitter<Favorite> =
+    new EventEmitter();
+  @Output('deleteListFavorite') deleteFavoriteListEvent: EventEmitter<string> =
+    new EventEmitter();
+  @Output('createListFavorite')
+  createFavoriteListEvent: EventEmitter<Favorite> = new EventEmitter();
   private fb = inject(FormBuilder);
   protected isEditModalOpen: WritableSignal<boolean> = signal(false);
   protected isRemoveModalOpen: WritableSignal<boolean> = signal(false);
   protected isCreateModalOpen: WritableSignal<boolean> = signal(false);
   protected formFavorite!: FormGroup;
 
-  ngOnInit(): void {
-    this.initForm();
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['favoriteList'].currentValue) {
+      this.initForm();
+    }
   }
 
   private initForm() {
     this.formFavorite = this.fb.group({
-      title: [this.favoriteList?.title ?? null, [Validators.required]],
-      description: [this.favoriteList?.description ?? null],
+      title: [this.favoriteList.title ?? null, [Validators.required]],
+      description: [this.favoriteList.description ?? null],
     });
   }
 
@@ -57,16 +86,28 @@ export class ListFavoriteComponent implements OnInit {
   }
 
   protected closeModalWithClick(event: MouseEvent) {
-    event.target == event.currentTarget && (this.closeEditModal(), this.closeRemoveModal());
+    event.target == event.currentTarget &&
+      (this.closeEditModal(), this.closeRemoveModal());
   }
 
   protected editListFavorite() {
-    this.editFavoriteListEvent.emit(this.formFavorite.value);
+    Object.assign(this.favoriteList, this.formFavorite.value);
+    this.editFavoriteListEvent.emit(this.favoriteList);
     this.closeEditModal();
   }
 
   protected removeListFavorite() {
-    this.removeFavoriteListEvent.emit(this.favoriteList.id);
+    this.deleteFavoriteListEvent.emit(this.favoriteList.userId);
+    this.formFavorite.reset
     this.closeRemoveModal();
+  }
+
+  protected createListFavorite() {
+    this.createFavoriteListEvent.emit(this.formFavorite.value);
+    this.closeCreateModal();
+  }
+
+  protected removeFavoriteItem(idProduct: number) {
+    this.removeFavoriteItemEvent.emit(idProduct);
   }
 }

@@ -14,5 +14,5 @@ import { FavoriteItem } from '../../../../api/favorite';
 })
 export class FavoriteItemComponent {
   @Input() favoriteItem!: FavoriteItem;
-  @Output() removeFavoriteItem: EventEmitter<string> = new EventEmitter();
+  @Output() removeFavoriteItem: EventEmitter<number> = new EventEmitter();
 }
