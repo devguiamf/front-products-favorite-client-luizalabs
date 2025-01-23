@@ -14,8 +14,9 @@ Este projeto foi desenvolvido utilizando AngularJs e Tailwind, seguindo a arquit
 ### Método Manual
 1. Clone o repositório:
     ```bash
-    git clone front-products-favorite-client-luizalabs
-    cd front-products-favorite-client-luizalabs
+    git clone https://github.com/devguiamf/front-products-favorite-client-luizalabs.git
+    
+    cd https://github.com/devguiamf/front-products-favorite-client-luizalabs.git
     ```
 2. Instale a cli do angular
     ```bash
@@ -32,6 +33,7 @@ Este projeto foi desenvolvido utilizando AngularJs e Tailwind, seguindo a arquit
     ```bash
     npm run start:dev
     ```
+6 Acesse a aplicação em `localhost:8080`
 
 ### Com Docker
 1. Clone o repositório:
@@ -45,3 +47,4 @@ Este projeto foi desenvolvido utilizando AngularJs e Tailwind, seguindo a arquit
     ```bash
     docker-compose up
     ```
+4 Acesse a aplicação em `localhost:8080`
